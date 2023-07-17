@@ -1,0 +1,31 @@
+.dialogs {
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: 1px;
+}
+
+.dialogsItems {
+    padding: 10px;
+    background-color: #e0e0eb;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+/*.messages {*/
+/*    padding: 20px;*/
+/*    background-color: #e8e8f0;*/
+/*    margin-bottom: 20px;*/
+/*    color: black;*/
+/*    white-space: nowrap;*/
+/*    overflow: hidden;*/
+/*    margin-left: 1.25rem;*/
+/*    border-radius: 1.25rem;*/
+/*}*/
+
+
+
+
+
+
+
