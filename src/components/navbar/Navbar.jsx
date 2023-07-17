@@ -13,11 +13,11 @@ export const Navbar = () => {
 				Messages
 			</NavLink>
 		</div>
-		{/*<div >*/}
-		{/*	<NavLink to="/users" className={activeLink.isActive ? `${s.item} ${s.active}` : s.item}>*/}
-		{/*		Users*/}
-		{/*	</NavLink>*/}
-		{/*</div>*/}
+		<div >
+			<NavLink to="/users" className={activeLink.isActive ? `${s.item} ${s.active}` : s.item}>
+				Users
+			</NavLink>
+		</div>
 		<div>
 			<NavLink to="/news" className={activeLink.isActive ? `${s.item} ${s.active}` : s.item}>
 				News
