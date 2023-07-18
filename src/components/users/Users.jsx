@@ -5,7 +5,19 @@ import userPhoto from '../../assets/images/user.png'
 
 class Users extends React.Component {
     componentDidMount() {
-        axios.get('https://social-network.samuraijs.com/api/1.0/users', {
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${this.props.currentPage}&count=${this.props.pageSize}`, {
+            headers: {
+                'API-KEY': 'c6a5ffb7-c324-47ae-b6ad-eba042f9a8a8'
+            }
+        })
+            .then(response => {
+                this.props.setUsers(response.data.items);
+                this.props.setTotalUsersCount(response.data.totalCount);
+            })
+    }
+    onPageChanged = (pageNumber) => {
+        this.props.setCurrentPage(pageNumber);
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.pageSize}`, {
             headers: {
                 'API-KEY': 'c6a5ffb7-c324-47ae-b6ad-eba042f9a8a8'
             }
@@ -16,9 +28,30 @@ class Users extends React.Component {
     }
 
     render() {
+        let pagesCount = Math.ceil(this.props.totalUsersCount / this.props.pageSize)
+        let pages = [];
+        for (let i = 1; i <= pagesCount; i++) {
+            pages.push(i)
+        }
+        let curPF = (this.props.currentPage - 5) < 0 ? 0 : this.props.currentPage - 5;
+        let curPL = this.props.currentPage + 5;
+        let slicedPages = pages.slice(curPF, curPL);
+
         return (
             <div>
-                {this.props.users.map(u => <div key={u.id}>
+                <div>
+                    {slicedPages.map((p) => (
+                        <span
+                            key={p}
+                            className={this.props.currentPage === p ? styles.selectedPage : null}
+                            onClick={() => this.onPageChanged(p)}
+                        >{p}
+                        </span>
+                    ))}
+                </div>
+
+                {
+                    this.props.users.map(u => <div key={u.id}>
           <span>
             <div>
               <img
@@ -35,7 +68,7 @@ class Users extends React.Component {
               )}
             </div>
           </span>
-                        <span>
+                            <span>
             <span>
               <div>{u.name}</div>
               <div>{u.status}</div>
@@ -45,8 +78,8 @@ class Users extends React.Component {
               <div>{"u.location.city"}</div>
             </span>
           </span>
-                    </div>
-                )}
+                        </div>
+                    )}
             </div>)
 
     }
