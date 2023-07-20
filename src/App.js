@@ -5,6 +5,7 @@ import Profile from "./components/profile/Profile";
 import { Route, Routes} from "react-router-dom";
 import DialogsContainer from "./components/dialogs/DialogsContainer";
 import UsersContainer from "./components/users/UsersContainer";
+import ProfileContainer from "./components/profile/ProfileContainer";
 
 function App(props) {
     return (
@@ -14,7 +15,7 @@ function App(props) {
             <div className="app-wrapper-content">
                 <Routes>
                     <Route exact path='/dialogs' element={<DialogsContainer/>}/>
-                    <Route exact path='/profile' element={<Profile/>}/>
+                    <Route exact path='/profile/:userId' element={<ProfileContainer/>}/>
                     <Route exact path='/users' element={<UsersContainer/>}/>
                 </Routes>
             </div>
