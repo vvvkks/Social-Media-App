@@ -1,16 +1,16 @@
 import './App.css';
-import Header from "./components/header/Header";
+import HeaderContainer from "./components/header/HeaderContainer";
 import Navbar from "./components/navbar/Navbar";
-import Profile from "./components/profile/Profile";
 import { Route, Routes} from "react-router-dom";
 import DialogsContainer from "./components/dialogs/DialogsContainer";
 import UsersContainer from "./components/users/UsersContainer";
 import ProfileContainer from "./components/profile/ProfileContainer";
+import React from "react";
 
-function App(props) {
+function App() {
     return (
         <div className="app-wrapper">
-            <Header/>
+            <HeaderContainer/>
             <Navbar/>
             <div className="app-wrapper-content">
                 <Routes>
