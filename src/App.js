@@ -6,6 +6,7 @@ import DialogsContainer from "./components/dialogs/DialogsContainer";
 import UsersContainer from "./components/users/UsersContainer";
 import ProfileContainer from "./components/profile/ProfileContainer";
 import React from "react";
+import LoginPage from "./components/login/Login";
 
 function App() {
     return (
@@ -17,6 +18,7 @@ function App() {
                     <Route exact path='/dialogs' element={<DialogsContainer/>}/>
                     <Route exact path='/profile/:userId' element={<ProfileContainer/>}/>
                     <Route exact path='/users' element={<UsersContainer/>}/>
+                    <Route exact path='/login' element={<LoginPage/>}/>
                 </Routes>
             </div>
         </div>
