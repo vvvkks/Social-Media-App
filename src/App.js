@@ -16,7 +16,7 @@ function App() {
             <div className="app-wrapper-content">
                 <Routes>
                     <Route exact path='/dialogs' element={<DialogsContainer/>}/>
-                    <Route exact path='/profile/:userId' element={<ProfileContainer/>}/>
+                    <Route exact path='/profile/:userId?' element={<ProfileContainer/>}/>
                     <Route exact path='/users' element={<UsersContainer/>}/>
                     <Route exact path='/login' element={<LoginPage/>}/>
                 </Routes>
