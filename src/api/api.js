@@ -15,18 +15,6 @@ export const usersAPI = {
                 return response.data
             })
     },
-    getAuthMe() {
-        return instance.get(`auth/me`)
-            .then(response => {
-                return response.data
-            })
-    },
-    getProfileUserId(id) {
-        return instance.get(`profile/` + id)
-            .then(response => {
-                return response.data
-            })
-    },
     deleteSubscribe(id) {
         return instance.delete(`follow/${id}`)
             .then(response => {
@@ -38,5 +26,28 @@ export const usersAPI = {
             .then(response => {
                 return response.data
             })
+    }
+};
+export const authAPI = {
+    getAuthMe() {
+        return instance.get(`auth/me`)
+            .then(response => {
+                return response.data
+            })
+    }
+}
+export const profileAPI = {
+    getProfileUserId(id) {
+        return instance.get(`profile/` + id)
+            .then(response => {
+                return response.data
+            })
+    },
+    getStatus(id) {
+        return instance.get(`profile/status/` + id)
+
+    },
+    updateStatus(status) {
+        return instance.put(`profile/status`, {status: status})
     }
 };
