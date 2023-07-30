@@ -1,10 +1,10 @@
-import { Post } from "./post/Post";
+import {Post} from "./post/Post";
 import s from "./MyPosts.module.css";
 import React from "react";
 
 export const MyPosts = (props) => {
 	let postsElements = props.posts
-		.map(p => <Post message={p.message} id={p.id} likesCount={p.likesCount}/>)
+		.map(p => <Post key={p.id} message={p.message} id={p.id} likesCount={p.likesCount}/>)
 	let onAddPost = () => {
 		props.addPost();
 	}
@@ -25,7 +25,7 @@ export const MyPosts = (props) => {
 			</div>
 		</div>
 		<div className={s.posts}>
-			{ postsElements }
+			{postsElements}
 		</div>
 	</div>)
 }
