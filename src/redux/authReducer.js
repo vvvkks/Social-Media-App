@@ -1,15 +1,19 @@
-import {authAPI} from "../api/api";
+import { authAPI, usersAPI } from '../api/api';
+import { stopSubmit } from 'redux-form';
 
 const SET_USER_DATA = 'SET-USER-DATA';
+const GET_CAPTCHA_URL_SUCCESS = 'GET-CAPTCHA-URL-SUCCESS';
 const TOGGLE_IS_FETCHING = 'TOGGLE-IS-FETCHING';
+const LOGOUT = 'LOGOUT';
 
 let initialState = {
     userId: null,
     email: null,
     login: null,
-    isFetching: true,
-    isAuth: false
-}
+    isAuth: false,
+    captchaUrl: null,
+};
+
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_USER_DATA:
@@ -17,28 +21,87 @@ const authReducer = (state = initialState, action) => {
                 ...state,
                 ...action.data,
                 isAuth: true,
-                isFetching: true
-            }
+            };
+        case GET_CAPTCHA_URL_SUCCESS:
+            return {
+                ...state,
+                captchaUrl: action.captchaUrl,
+            };
         case TOGGLE_IS_FETCHING: {
             return {
                 ...state,
-                isFetching: action.isFetching
-            }
+                isFetching: action.isFetching,
+            };
         }
+        case LOGOUT:
+            return {
+                ...state,
+                userId: null,
+                email: null,
+                login: null,
+                isAuth: false,
+            };
         default:
             return state;
     }
-}
-export const setAuthUserData = (userId, email, login) => ({type: SET_USER_DATA, data: {userId, email, login}})
-export const toggleIsFetching = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching})
+};
+
+export const setAuthUserData = (userId, email, login, isAuth) => ({
+    type: SET_USER_DATA,
+    data: { userId, email, login, isAuth },
+});
+export const getCaptchaUrlSuccess = (captchaUrl) => ({
+    type: GET_CAPTCHA_URL_SUCCESS,
+    captchaUrl,
+});
+export const toggleIsFetching = (isFetching) => ({
+    type: TOGGLE_IS_FETCHING,
+    isFetching,
+});
+export const logout = () => async (dispatch) => {
+    let response = await authAPI.logout();
+
+    if (response.resultCode === 0) {
+        dispatch({ type: LOGOUT });
+    }
+};
+
 export const getAuthUserData = () => (dispatch) => {
     dispatch(toggleIsFetching(true));
-    authAPI.getAuthMe().then(data => {
+    authAPI.getAuthMe().then((data) => {
         if (data.resultCode === 0) {
             dispatch(toggleIsFetching(false));
-            let {id, login, email} = data.data;
-            dispatch(setAuthUserData(id, email, login))
+            let { id, login, email } = data.data;
+            dispatch(setAuthUserData(id, email, login));
         }
-    })
-}
+    });
+};
+
+export const getCaptchaUrl = () => async (dispatch) => {
+    try {
+        const data = await usersAPI.getCaptchaUrl();
+        const captchaUrl = data.url;
+        dispatch(getCaptchaUrlSuccess(captchaUrl));
+    } catch (error) {
+        console.error('Error with getting URL captcha:', error);
+    }
+};
+
+export const login = (email, password, rememberMe, captcha) => async (dispatch) => {
+    let data = await authAPI.login(email, password, rememberMe, captcha);
+    if (data.resultCode === 0) {
+        dispatch(getAuthUserData());
+    } else {
+        if (data.resultCode === 10) {
+            dispatch(getCaptchaUrl());
+        }
+
+        let message = data.messages.length > 0 ? data.messages[0] : 'Some error';
+        dispatch(stopSubmit('login', { _error: message }));
+    }
+};
+
 export default authReducer;
+
+
+

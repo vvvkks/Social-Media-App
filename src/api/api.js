@@ -29,11 +29,21 @@ export const usersAPI = {
     }
 };
 export const authAPI = {
+    login(email, password, rememberMe, captcha) {
+        return instance.post(`auth/login`,{ email, password, rememberMe, captcha })
+            .then(response => {
+                return response.data;
+            });
+    },
     getAuthMe() {
         return instance.get(`auth/me`)
             .then(response => {
                 return response.data
             })
+    },
+    logout() {
+        return instance.delete(`auth/login`)
+            .then(response => response.data);
     }
 }
 export const profileAPI = {
