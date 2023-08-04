@@ -5,20 +5,14 @@ import {getAuthUserData} from "../../redux/authReducer";
 import {toggleIsFetching} from "../../redux/usersReducer";
 
 class HeaderContainer extends React.Component {
-    componentDidMount() {
-        this.props.getAuthUserData()
-    }
-
     render() {
         return <Header {...this.props} />
     }
-
 }
 
 const mapStateToProps = (state) => ({
     isAuth: state.auth.isAuth,
     login: state.auth.login,
-    isFetching: state.auth.isFetching
 })
 
-export default connect(mapStateToProps, {getAuthUserData, toggleIsFetching})(HeaderContainer);
+export default connect(mapStateToProps)(HeaderContainer);
