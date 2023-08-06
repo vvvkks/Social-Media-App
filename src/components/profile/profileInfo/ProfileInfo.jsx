@@ -1,6 +1,6 @@
 import s from "./ProfileInfo.module.css"
 import Preloader from "../../../common/preloader/Preloader";
-import ProfileStatus from "./ProfileStatusWithHooks";
+import ProfileStatus from "./ProfileStatus";
 export const ProfileInfo = (props) => {
 	if (!props.profile) {
 		return <Preloader />
