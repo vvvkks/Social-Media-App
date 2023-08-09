@@ -3,14 +3,14 @@ import s from "./MyPosts.module.css";
 import React from "react";
 import {AddPostsForm} from "./AddPostsForm";
 
-const MyPosts = (props) => {
-	let postsElements = props.posts.map(p => (
+const MyPosts = React.memo(props => {
+	let postsElements = this.props.posts.map(p => (
 		<Post key={p.id} message={p.message} id={p.id} likesCount={p.likesCount}/>
 	));
 
 	let newPostElement = React.createRef();
 	let addNewPost = (values) => {
-		props.addPost(values.newPostText);
+		this.props.addPost(values.newPostText);
 	};
 
 	return (
@@ -19,7 +19,7 @@ const MyPosts = (props) => {
 			<AddPostsForm handleFormSubmit={addNewPost}/>
 			<div className={s.posts}>{postsElements}</div>
 		</div>
-	);
-};
+	)
+})
 export default MyPosts;
 
