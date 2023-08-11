@@ -4,13 +4,13 @@ import React from "react";
 import {AddPostsForm} from "./AddPostsForm";
 
 const MyPosts = React.memo(props => {
-	let postsElements = this.props.posts.map(p => (
+	let postsElements = props.posts.map(p => (
 		<Post key={p.id} message={p.message} id={p.id} likesCount={p.likesCount}/>
 	));
 
 	let newPostElement = React.createRef();
 	let addNewPost = (values) => {
-		this.props.addPost(values.newPostText);
+		props.addPost(values.newPostText);
 	};
 
 	return (
