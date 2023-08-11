@@ -1,10 +1,10 @@
 import { authAPI, usersAPI } from '../api/api';
 import { stopSubmit } from 'redux-form';
 
-const SET_USER_DATA = 'SET-USER-DATA';
-const GET_CAPTCHA_URL_SUCCESS = 'GET-CAPTCHA-URL-SUCCESS';
-const TOGGLE_IS_FETCHING = 'TOGGLE-IS-FETCHING';
-const LOGOUT = 'LOGOUT';
+const SET_USER_DATA = '/auth/SET-USER-DATA';
+const GET_CAPTCHA_URL_SUCCESS = 'auth/GET-CAPTCHA-URL-SUCCESS';
+const TOGGLE_IS_FETCHING = 'auth/TOGGLE-IS-FETCHING';
+const LOGOUT = 'auth/LOGOUT';
 
 let initialState = {
     userId: null,
@@ -66,15 +66,14 @@ export const logout = () => async (dispatch) => {
     }
 };
 
-export const getAuthUserData = () => (dispatch) => {
+export const getAuthUserData = () => async (dispatch) => {
     dispatch(toggleIsFetching(true));
-    authAPI.getAuthMe().then((data) => {
-        if (data.resultCode === 0) {
-            dispatch(toggleIsFetching(false));
-            let { id, login, email } = data.data;
-            dispatch(setAuthUserData(id, email, login));
-        }
-    });
+    let data = await authAPI.getAuthMe()
+    if (data.resultCode === 0) {
+        dispatch(toggleIsFetching(false));
+        let {id, login, email} = data.data;
+        dispatch(setAuthUserData(id, email, login));
+    }
 };
 
 export const getCaptchaUrl = () => async (dispatch) => {
