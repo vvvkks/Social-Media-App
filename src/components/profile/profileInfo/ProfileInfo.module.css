@@ -1,7 +1,6 @@
 .descriptionBlock {
     padding: 10px;
 }
-.profileBackground {
-    height: 300px;
-    width: 1000px;
+.mainPhoto {
+    max-width: 150px;
 }
