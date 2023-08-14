@@ -13,7 +13,8 @@ export function withRouter(Children){
 }
 
 class ProfileContainer extends React.Component {
-    componentDidMount() {
+
+    refreshProfile() {
         let userId = this.props.match.params.userId;
         if (!userId) {
             userId = this.props.authorizedUserId;
@@ -24,6 +25,15 @@ class ProfileContainer extends React.Component {
         this.props.getUserProfile(userId)
         this.props.getStatus(userId)
     }
+
+    componentDidMount() {
+        this.refreshProfile()
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        this.refreshProfile()
+    }
+
 
     render() {
         return (
