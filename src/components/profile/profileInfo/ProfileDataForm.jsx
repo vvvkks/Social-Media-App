@@ -2,10 +2,10 @@ import React, {useEffect, useState} from "react";
 import {Formik, Form, Field} from "formik";
 
 const ProfileDataForm = ({ profile, onSubmit }) => {
-    const [setFullName] = useState(profile.fullName);
-    const [setLookingForAJob] = useState(profile.lookingForAJob);
-    const [setLookingForAJobDescription] = useState(profile.lookingForAJobDescription);
-    const [setAboutMe] = useState(profile.aboutMe);
+    const [fullName, setFullName] = useState(profile.fullName);
+    const [lookingForAJob, setLookingForAJob] = useState(profile.lookingForAJob);
+    const [lookingForAJobDescription, setLookingForAJobDescription] = useState(profile.lookingForAJobDescription);
+    const [aboutMe, setAboutMe] = useState(profile.aboutMe);
 
     useEffect(() => {
         setFullName(profile.fullName);
