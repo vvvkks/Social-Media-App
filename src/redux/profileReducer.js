@@ -1,5 +1,7 @@
 import {profileAPI} from "../api/api";
 import {v4} from "uuid";
+import {stopSubmit} from "redux-form";
+import {getCaptchaUrl} from "./authReducer";
 
 const ADD_POST = 'ADD-POST';
 const SET_USER_PROFILE = 'SET-USER-PROFILE';
@@ -93,6 +95,14 @@ export const saveProfile = (profile) => async (dispatch, getState) => {
     const response = await profileAPI.saveProfile(profile)
     if (response.data.resultCode === 0) {
         dispatch(getUserProfile(userId));
+    } else {
+        if (response.resultCode === 10) {
+            dispatch(getCaptchaUrl());
+        }
+
+        let message = response.messages.length > 0 ? response.messages[0] : 'Some error';
+        dispatch(stopSubmit('edit-profile', {_error: message}));
+        return Promise.reject();
     }
 }
 export default profileReducer;

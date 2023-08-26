@@ -52,9 +52,9 @@ export const ProfileInfo = ({ profile, status, updateStatus, isOwner, savePhoto,
 		setEditMode(true);
 	};
 
-	const onSubmit = (updatedProfile) => {
-		saveProfile(updatedProfile);
-		setEditMode(false);
+	const onSubmit = async (formData) => {
+		await saveProfile(formData)
+			setEditMode(false);
 	};
 
 	return (
