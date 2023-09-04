@@ -1,4 +1,4 @@
-import { authAPI, usersAPI } from '../api/api';
+import {authAPI, securityAPI} from '../api/api';
 import { stopSubmit } from 'redux-form';
 
 const SET_USER_DATA = '/auth/SET-USER-DATA';
@@ -51,8 +51,7 @@ export const setAuthUserData = (userId, email, login, isAuth) => ({
     data: { userId, email, login, isAuth },
 });
 export const getCaptchaUrlSuccess = (captchaUrl) => ({
-    type: GET_CAPTCHA_URL_SUCCESS,
-    captchaUrl,
+    type: GET_CAPTCHA_URL_SUCCESS, payload: {captchaUrl}
 });
 export const toggleIsFetching = (isFetching) => ({
     type: TOGGLE_IS_FETCHING,
@@ -75,17 +74,6 @@ export const getAuthUserData = () => async (dispatch) => {
         dispatch(setAuthUserData(id, email, login));
     }
 };
-
-export const getCaptchaUrl = () => async (dispatch) => {
-    try {
-        const data = await usersAPI.getCaptchaUrl();
-        const captchaUrl = data.url;
-        dispatch(getCaptchaUrlSuccess(captchaUrl));
-    } catch (error) {
-        console.error('Error with getting URL captcha:', error);
-    }
-};
-
 export const login = (email, password, rememberMe, captcha) => async (dispatch) => {
     let data = await authAPI.login(email, password, rememberMe, captcha);
     if (data.resultCode === 0) {
@@ -99,7 +87,11 @@ export const login = (email, password, rememberMe, captcha) => async (dispatch) 
         dispatch(stopSubmit('login', { _error: message }));
     }
 };
-
+export const getCaptchaUrl = () => async (dispatch) => {
+    const response = await securityAPI.getCaptchaUrl();
+    const captchaUrl = response.data.url;
+    dispatch(getCaptchaUrlSuccess(captchaUrl))
+};
 export default authReducer;
 
 
