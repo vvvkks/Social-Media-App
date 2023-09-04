@@ -25,7 +25,7 @@ const authReducer = (state = initialState, action) => {
         case GET_CAPTCHA_URL_SUCCESS:
             return {
                 ...state,
-                captchaUrl: action.captchaUrl,
+                ...action.payload
             };
         case TOGGLE_IS_FETCHING: {
             return {
