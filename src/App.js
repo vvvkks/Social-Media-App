@@ -1,9 +1,9 @@
 import './App.css';
-import React, { Suspense, lazy } from "react";
+import React, {Suspense, lazy} from "react";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import {connect, Provider} from "react-redux";
-import { compose } from "redux";
-import { initializeApp } from "./redux/appReducer";
+import {compose} from "redux";
+import {initializeApp} from "./redux/appReducer";
 import Preloader from "./common/preloader/Preloader";
 import store from "./redux/reduxStore";
 
@@ -16,24 +16,35 @@ const LoginPage = lazy(() => import("./components/login/Login"));
 
 
 class App extends React.Component {
+    catchAllUnhandledErrors = (promiseRejectionEvent) => {
+        alert("Some error occurred");
+        console.error(promiseRejectionEvent);
+    }
     componentDidMount() {
         this.props.initializeApp();
+        window.addEventListener("unhandledrejection", this.catchAllUnhandledErrors);
     }
+    componentWillUnmount() {
+        window.removeEventListener("unhandledrejection", this.catchAllUnhandledErrors);
+    }
+
     render() {
         if (!this.props.initialized) {
-            return <Preloader />;
+            return <Preloader/>;
         }
         return (
             <div className="app-wrapper">
-                <Suspense fallback={<Preloader />}>
-                    <HeaderContainer />
-                    <Navbar />
+                <Suspense fallback={<Preloader/>}>
+                    <HeaderContainer/>
+                    <Navbar/>
                     <div className="app-wrapper-content">
                         <Routes>
-                            <Route exact path='/dialogs' element={<DialogsContainer />} />
-                            <Route exact path='/profile/:userId?' element={<ProfileContainer />} />
-                            <Route exact path='/users' element={<UsersContainer />} />
-                            <Route exact path='/login' element={<LoginPage />} />
+                            <Route path='/dialogs' element={<DialogsContainer/>}/>
+                            <Route exact path='/' element={<ProfileContainer/>}/>
+                            <Route exact path='/profile/:userId?' element={<ProfileContainer/>}/>
+                            <Route exact path='/users' element={<UsersContainer/>}/>
+                            <Route exact path='/login' element={<LoginPage/>}/>
+                            <Route exact path='*' element={() => <div>404 NOT FOUND</div>}/>
                         </Routes>
                     </div>
                 </Suspense>
@@ -41,12 +52,13 @@ class App extends React.Component {
         );
     }
 }
+
 const mapStateToProps = (state) => ({
     initialized: state.app.initialized
 });
 
-let AppContainer =  compose(
-    connect(mapStateToProps, { initializeApp })
+let AppContainer = compose(
+    connect(mapStateToProps, {initializeApp})
 )(App);
 const SocialApp = (props) => {
     return <Router>
@@ -56,4 +68,3 @@ const SocialApp = (props) => {
     </Router>
 }
 export default SocialApp;
-
