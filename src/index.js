@@ -7,4 +7,3 @@ ReactDOM.render(
     <SocialApp />,
     document.getElementById('root')
 )
-
