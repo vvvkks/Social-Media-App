@@ -1,6 +1,6 @@
 import './App.css';
 import React, {Suspense, lazy} from "react";
-import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import {BrowserRouter as Router, Navigate, Route, Routes} from "react-router-dom";
 import {connect, Provider} from "react-redux";
 import {compose} from "redux";
 import {initializeApp} from "./redux/appReducer";
@@ -40,7 +40,8 @@ class App extends React.Component {
                     <div className="app-wrapper-content">
                         <Routes>
                             <Route path='/dialogs' element={<DialogsContainer/>}/>
-                            <Route exact path='/' element={<ProfileContainer/>}/>
+                            <Route exact path='/'
+                                   element={<Navigate to={"/profile"}/>} />
                             <Route exact path='/profile/:userId?' element={<ProfileContainer/>}/>
                             <Route exact path='/users' element={<UsersContainer/>}/>
                             <Route exact path='/login' element={<LoginPage/>}/>
