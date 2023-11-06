@@ -1,9 +1,12 @@
 import './index.css';
-import ReactDOM from "react-dom";
 import React from "react";
 import SocialApp from "./App";
+import {createRoot} from "react-dom/client";
 
-ReactDOM.render(
-    <SocialApp />,
-    document.getElementById('root')
-)
+const root = createRoot(document.getElementById('root'));
+
+function App() {
+    return <SocialApp />;
+}
+
+root.render(<App />);
